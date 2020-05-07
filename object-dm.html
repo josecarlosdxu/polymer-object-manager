@@ -1,0 +1,104 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="cells-generic-dp.html">
+<dom-module id="object-dm">
+  <template>    
+   <cells-generic-dp id="dpid"
+        host="https://www.breakingbadapi.com"
+        params="[[params]]"
+        headers="[[headers]]"
+        method="[[method]]"
+        path="[[path]]"     
+        on-request-error="_onRequestError"
+        on-request-success="_onRequestOK"></cells-generic-dp> 
+  </template>  
+  <script>
+    class ObjectDM  extends Polymer.Element{
+          static get is() {
+            return 'object-dm';
+          }
+
+          static get properties() {
+            return {                
+                params:{
+                  type: String,
+                  notify: true,
+                  observer: '_paramsChanged'
+                },
+                headers: {
+                    type: String,
+                    value: '{"Access-Control-Allow-Origin":*}'
+                },
+                method: {
+                    value:'GET',
+                    type: String
+                },
+                path: {
+                    value:'/api/characters',
+                    type: String
+                }
+            }
+          }
+
+
+          constructor(){
+            super();
+          }
+
+          ready(){
+            super.ready();
+          }
+
+          _paramsChanged(val){
+            this.params = val;
+            this.$.dpid.generateRequest();
+
+          }
+
+          _cleanObject(obj) {
+            const {
+              char_id:id,
+              name,
+              img:image,
+              nickname,
+              birthday,
+              status,
+              occupation,
+              portrayed:playedBy,
+              appearance:sessions
+            } = obj; 
+
+           return { 
+              id,
+              name,
+              image,
+              nickname,
+              birthday,
+              status,
+              occupation,
+              playedBy,
+              sessions
+            };
+          }
+
+          _eventDispatcher(type, data) {
+            this.dispatchEvent(new CustomEvent(type, {
+              detail: {data},
+              bubbles: true,
+              composed: true
+            }));
+          }
+
+          _onRequestOK(event) {
+            const data = event.detail.data.map(this._cleanObject);
+            this._eventDispatcher('page-list-event', data);
+          }
+
+          _onRequestError(event) {
+            const data = event.detail.data;
+            this._eventDispatcher('page-list-event-error', data);
+          }      
+        }
+        customElements.define(ObjectDM.is, ObjectDM);
+    
+   </script>
+<\dom-module>

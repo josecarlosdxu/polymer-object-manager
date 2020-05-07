@@ -1,0 +1,53 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="object-dm.html">
+<dom-module id="object-manager">
+  <template> 
+    <object-dm id="my-data-manager" 
+        params="[[_params]]" 
+        headers="[[_headers]]" 
+        path="[[_path]]">          
+    </object-dm>    
+  </template>  
+  <script>   
+       class ObjectManager  extends Polymer.Element {
+          static get is() {
+            return 'object-manager';
+          }
+           static get properties() {
+            return {             
+              _path:String,
+              _headers:String,
+              _params:{
+                type:String,
+                notify: true
+              },
+            };
+          }          
+          constructor() {
+            super();
+            this._params = "";
+            this._headers = "";
+            this._path = this.path;
+            this._result = "";
+          }
+          ready() {
+              super.ready();
+              this.addEventListener('page-list-event', event => this._pageList(event));
+              this.addEventListener('page-list-event-error', event => this._pageListError(event));
+              this.addEventListener('page-search-event', event => this._pageSearch(event));
+           }
+          
+          _pageList(event) { 
+            this._result = event.detail.data;
+          }
+           _pageSearch(event) { 
+             this._params = event.detail;             
+           }          
+          _pageListError(event) {
+            console.log(event)
+           }
+        }
+        customElements.define(ObjectManager.is, ObjectManager);
+     
+   </script>
+<\dom-module>

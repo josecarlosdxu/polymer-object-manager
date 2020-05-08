@@ -1,5 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="import" href="object-dm.html">
+<link rel="import" href="../bower_components/data-manager/object-dm.html">
 <dom-module id="object-manager">
   <template> 
     <object-dm id="my-data-manager" 
@@ -16,17 +16,17 @@
            static get properties() {
             return {             
               _path:String,
-              _headers:String,
+              _headers:Object,
               _params:{
-                type:String,
+                type:Object,
                 notify: true
               },
             };
           }          
           constructor() {
             super();
-            this._params = "";
-            this._headers = "";
+            this._params = {};
+            this._headers = {};
             this._path = this.path;
             this._result = "";
           }

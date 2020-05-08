@@ -1,12 +1,24 @@
 {
-  "name": "data-provider",
+  "name": "object-manager",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0",
     "data-manager": "https://github.com/josecarlosdxu/polymer-data-manager.git"
   },
   "private": true,
-  "devDependencies": {
-    "data-manager": "https://github.com/josecarlosdxu/polymer-data-manager.git"
-  }
+  
+  "homepage": "https://github.com/josecarlosdxu/polymer-object-manager",
+  "authors": [
+    "Madrid Pepín <jamd@gft.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
 }
